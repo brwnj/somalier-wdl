@@ -1,0 +1,11 @@
+{
+  "somalier.manifest": "File",
+  "somalier.fasta": "File",
+  "somalier.fasta_index": "File",
+  "somalier.sites_vcf": "File",
+  "somalier.ped": "File",
+  "somalier.disk_size": "Int (optional, default = 100)",
+  "somalier.memory": "Int (optional, default = 8)",
+  "somalier.image": "String (optional, default = \"brentp/somalier:v0.2.9\")"
+}
+
