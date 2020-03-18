@@ -64,6 +64,7 @@ task somalier_relate {
     }
 }
 
+
 workflow somalier {
     # three column TSV: sample_id, cram/bam, cram/bam_index
     File manifest
