@@ -8,4 +8,3 @@
   "somalier.memory": "Int (optional, default = 8)",
   "somalier.image": "String (optional, default = \"brentp/somalier:v0.2.9\")"
 }
-
