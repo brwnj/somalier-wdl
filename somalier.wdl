@@ -65,6 +65,35 @@ task somalier_relate {
 }
 
 
+task tar_czf {
+    Array[File] files
+    String filename = "archive"
+
+    Int disk_size = 100
+    Int memory = 8
+    String image = "brentp/somalier:v0.2.9"
+
+    command {
+        tar -czvf `pwd`/${filename}.tar.gz --files-from=${write_lines(files)}
+    }
+    runtime {
+        memory: memory + "GB"
+        cpu: 1
+        disks: "local-disk " + disk_size + " HDD"
+        preemptible: 2
+        docker: image
+    }
+    output {
+        File archive = "${filename}.tar.gz"
+    }
+    meta {
+        author: "Joe Brown"
+        email: "brwnjm@gmail.com"
+        description: "Compress and array of files into a single tar.gz archive"
+    }
+}
+
+
 workflow somalier {
     # three column TSV: sample_id, cram/bam, cram/bam_index
     File manifest
@@ -72,7 +101,7 @@ workflow somalier {
     File fasta
     File fasta_index
     File sites_vcf
-    File ped
+    # File ped
 
     Int disk_size = 100
     Int memory = 8
@@ -92,10 +121,18 @@ workflow somalier {
                 image = image
         }
     }
-    call somalier_relate {
+    # call somalier_relate {
+    #     input:
+    #         somalier_counts = somalier_extract.counts,
+    #         ped = ped,
+    #         disk_size = disk_size,
+    #         memory = memory,
+    #         image = image
+    # }
+    call tar_czf {
         input:
-            somalier_counts = somalier_extract.counts,
-            ped = ped,
+            files = somalier_extract.counts,
+            filename = "somalier_counts",
             disk_size = disk_size,
             memory = memory,
             image = image
